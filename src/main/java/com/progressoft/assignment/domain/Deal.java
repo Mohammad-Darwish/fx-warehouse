@@ -1,6 +1,10 @@
-package com.progressoft.assignment.model;
+package com.progressoft.assignment.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,21 +25,28 @@ public class Deal {
 
     @Id
     @Column(name = "id", nullable = false, unique = true)
+    @NotNull
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "from-currency(Ordering Currency)", nullable = false)
+    @Column(name = "from_currency_Ordering_Currency", nullable = false)
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private Currency fromCurrency;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "to-currency", nullable = false)
+    @Column(name = "to_currency", nullable = false)
+    @NotNull
     private Currency toCurrency;
 
     @Column(name = "timestamp", nullable = false)
+    @PastOrPresent
     private LocalDateTime timestamp;
 
     // fix the name of this column, It Does not look nice TODO
-    @Column(name = "amount(in Ordering Currency)", nullable = false)
+    @Column(name = "amount_in_ordering_currency)", nullable = false)
+    @NotNull
+    @Positive
     private BigDecimal amount;
 
 

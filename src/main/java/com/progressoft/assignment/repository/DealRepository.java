@@ -1,6 +1,6 @@
 package com.progressoft.assignment.repository;
 
-import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.domain.Deal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package com.progressoft.assignment.util;
 
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;

@@ -1,8 +1,9 @@
 package com.progressoft.assignment.controller;
 
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
+import com.progressoft.assignment.dto.DealDto;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,7 +33,7 @@ public class DealController {
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SaveDealsResponse> addDeals(@RequestBody List<Deal> deals) {
+    public ResponseEntity<SaveDealsResponse> addDeals(@Valid @RequestBody List<Deal> deals) {
         SaveDealsResponse savedDeals = dealService.saveDeals(deals);
         if (savedDeals.existingDealIds().isEmpty()) {
             return new ResponseEntity<>(savedDeals, HttpStatus.CREATED);
@@ -50,10 +51,10 @@ public class DealController {
         description = "HTTP status code is 200 okay")
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Deal>> getAllDeals(@Valid @RequestParam(required = false) Currency currency,
-                                                  @Valid @RequestParam(required = false) BigDecimal minValue,
-                                                  @Valid @RequestParam(required = false) BigDecimal maxValue) {
-        List<Deal> deals = dealService.readAllDeals(currency, minValue, maxValue);
+    public ResponseEntity<List<DealDto>> getAllDeals(@Valid @RequestParam(required = false) Currency currency,
+                                                     @Valid @RequestParam(required = false) BigDecimal minValue,
+                                                     @Valid @RequestParam(required = false) BigDecimal maxValue) {
+        List<DealDto> deals = dealService.readAllDeals(currency, minValue, maxValue);
         return new ResponseEntity<>(deals, HttpStatus.OK);
     }
 
@@ -66,8 +67,8 @@ public class DealController {
     @GetMapping(
         path = "{id}",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Deal> getDealById(@PathVariable String id) {
-        Deal deal = dealService.readDeal(id);
-        return new ResponseEntity<>(deal, HttpStatus.OK);
+    public ResponseEntity<DealDto> getDealById(@PathVariable String id) {
+        DealDto dealDto = dealService.readDeal(id);
+        return new ResponseEntity<>(dealDto, HttpStatus.OK);
     }
 }
