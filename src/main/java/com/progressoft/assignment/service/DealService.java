@@ -2,6 +2,7 @@ package com.progressoft.assignment.service;
 
 import com.progressoft.assignment.model.Currency;
 import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.pojo.SaveDealsResponse;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.util.List;
 @Service
 public interface DealService {
 
-    public List<Deal> saveDeals(List<Deal> deals);
+    public SaveDealsResponse saveDeals(List<Deal> deals);
 
     public Deal readDeal(String id);
 

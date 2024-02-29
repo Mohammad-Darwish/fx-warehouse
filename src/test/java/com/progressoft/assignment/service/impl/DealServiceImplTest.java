@@ -2,6 +2,7 @@ package com.progressoft.assignment.service.impl;
 
 import com.progressoft.assignment.model.Currency;
 import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.pojo.SaveDealsResponse;
 import com.progressoft.assignment.repository.DealRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,12 +33,19 @@ class DealServiceImplTest {
     void saveDealsTest() {
         // Setup
         when(
-            dealRepository.saveAllAndFlush(THREE_DEALS)
-        ).thenReturn(THREE_DEALS);
+            dealRepository.existsById(JOD_DEAL.getId())
+        ).thenReturn(false);
+        when(
+            dealRepository.existsById(EUR_DEAL.getId())
+        ).thenReturn(true);
+        when(
+            dealRepository.saveAndFlush(JOD_DEAL)
+        ).thenReturn(JOD_DEAL);
         // Execute
-        List<Deal> saveDeals = dealService.saveDeals(THREE_DEALS);
+        SaveDealsResponse saveDealsResponse = dealService.saveDeals(JOD_EUR_DEALS);
         // Assert
-        assertEquals(THREE_DEALS, saveDeals);
+        assertEquals(JOD_DEAL.getId(), saveDealsResponse.savedDealsIds().get(0));
+        assertEquals(EUR_DEAL.getId(), saveDealsResponse.existingDealIds().get(0));
     }
 
     @Test

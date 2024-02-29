@@ -2,6 +2,7 @@ package com.progressoft.assignment.util;
 
 import com.progressoft.assignment.model.Currency;
 import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.pojo.SaveDealsResponse;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,7 +39,14 @@ public class Constants {
         .timestamp(LocalDateTime.now())
         .build();
 
-    public static final List<Deal> THREE_DEALS = List.of(JOD_DEAL, EUR_DEAL, USD_DEAL);
+    public static final List<Deal> JOD_EUR_USD_DEALS = List.of(JOD_DEAL, EUR_DEAL, USD_DEAL);
+    public static final List<Deal> JOD_EUR_DEALS = List.of(JOD_DEAL, EUR_DEAL);
+    public static final SaveDealsResponse SAVE_DEALS_RESPONSE =
+        new SaveDealsResponse(List.of(JOD_DEAL.getId()), List.of(USD_DEAL.getId(), EUR_DEAL.getId()));
+    public static final SaveDealsResponse SAVE_DEALS_RESPONSE_ALREADY_EXIST =
+        new SaveDealsResponse(List.of(), List.of(JOD_DEAL.getId(), EUR_DEAL.getId()));
+    public static final SaveDealsResponse SAVE_DEALS_RESPONSE_NEW =
+        new SaveDealsResponse(List.of(JOD_DEAL.getId(), EUR_DEAL.getId()), List.of());
 
     public static BigDecimal AMOUNT_VALUE_10 = new BigDecimal(10);
     public static BigDecimal AMOUNT_VALUE_1000 = new BigDecimal(1000);

@@ -2,20 +2,25 @@ package com.progressoft.assignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.pojo.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
 import com.progressoft.assignment.util.DealMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-import static com.progressoft.assignment.util.Constants.JOD_DEAL;
-import static com.progressoft.assignment.util.Constants.THREE_DEALS;
+import static com.progressoft.assignment.util.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
@@ -35,20 +40,43 @@ class DealControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    @Test
-    void addDealsTest() throws Exception {
-        mockMvc.perform(
-                post("/fx-warehouse/v1/deals").
-                    contentType(MediaType.APPLICATION_JSON_VALUE).
-                    content(mapper.writeValueAsString(List.of(JOD_DEAL)))
-            )
-            .andExpect(status().isOk());
+//    @Test
+//    void addDealsTest() throws Exception {
+//        when(dealService.saveDeals(any()))
+//            .thenReturn(SAVE_DEALS_RESPONSE);
+//        ResultActions perform = mockMvc.perform(
+//            post("/fx-warehouse/v1/deals").
+//                contentType(MediaType.APPLICATION_JSON_VALUE).
+//                content(mapper.writeValueAsString(List.of(JOD_DEAL)))
+//        );
+//        perform.andExpect(status().isOk());
+//    }
+
+    @ParameterizedTest
+    @MethodSource("dealTestData")
+    void addDealsTest(List<Deal> inputDeals, SaveDealsResponse saveDealsResponse, int expectedStatus) throws Exception {
+        when(dealService.saveDeals(any())).thenReturn(saveDealsResponse);
+
+        ResultActions perform = mockMvc.perform(
+            post("/fx-warehouse/v1/deals")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapper.writeValueAsString(inputDeals))
+        );
+        perform.andExpect(status().is(expectedStatus));
+    }
+
+    private static Stream<Arguments> dealTestData() {
+        return Stream.of(
+            Arguments.of(JOD_EUR_USD_DEALS, SAVE_DEALS_RESPONSE, 200),
+            Arguments.of(JOD_EUR_DEALS, SAVE_DEALS_RESPONSE_NEW, 201),
+            Arguments.of(JOD_EUR_DEALS, SAVE_DEALS_RESPONSE_ALREADY_EXIST, 409)
+        );
     }
 
     @Test
     void getAllDealsTest() throws Exception {
         when(dealService.readAllDeals(any(), any(), any()))
-            .thenReturn(THREE_DEALS);
+            .thenReturn(JOD_EUR_USD_DEALS);
         MockHttpServletResponse response = mockMvc.perform(
                 get("/fx-warehouse/v1/deals")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +84,7 @@ class DealControllerTest {
             .andExpect(status().isOk())
             .andReturn().getResponse();
         List<Deal> deals = DealMapper.jsonToListObject(mapper, response.getContentAsString());
-        assertEquals(THREE_DEALS, deals);
+        assertEquals(JOD_EUR_USD_DEALS, deals);
     }
 
     @Test
