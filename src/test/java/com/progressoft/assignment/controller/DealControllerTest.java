@@ -1,6 +1,7 @@
 package com.progressoft.assignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.Deal;
 import com.progressoft.assignment.pojo.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
@@ -40,18 +41,6 @@ class DealControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-//    @Test
-//    void addDealsTest() throws Exception {
-//        when(dealService.saveDeals(any()))
-//            .thenReturn(SAVE_DEALS_RESPONSE);
-//        ResultActions perform = mockMvc.perform(
-//            post("/fx-warehouse/v1/deals").
-//                contentType(MediaType.APPLICATION_JSON_VALUE).
-//                content(mapper.writeValueAsString(List.of(JOD_DEAL)))
-//        );
-//        perform.andExpect(status().isOk());
-//    }
-
     @ParameterizedTest
     @MethodSource("dealTestData")
     void addDealsTest(List<Deal> inputDeals, SaveDealsResponse saveDealsResponse, int expectedStatus) throws Exception {
@@ -76,28 +65,28 @@ class DealControllerTest {
     @Test
     void getAllDealsTest() throws Exception {
         when(dealService.readAllDeals(any(), any(), any()))
-            .thenReturn(JOD_EUR_USD_DEALS);
+            .thenReturn(JOD_EUR_USD_DEALS_DTO);
         MockHttpServletResponse response = mockMvc.perform(
                 get("/fx-warehouse/v1/deals")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
             )
             .andExpect(status().isOk())
             .andReturn().getResponse();
-        List<Deal> deals = DealMapper.jsonToListObject(mapper, response.getContentAsString());
-        assertEquals(JOD_EUR_USD_DEALS, deals);
+        List<DealDto> deals = DealMapper.jsonToListObject(mapper, response.getContentAsString());
+        assertEquals(JOD_EUR_USD_DEALS_DTO, deals);
     }
 
     @Test
     void getDealByIdTest() throws Exception {
         when(dealService.readDeal(JOD_DEAL.getId().toString()))
-            .thenReturn(JOD_DEAL);
+            .thenReturn(JOD_DEAL_DTO);
         MockHttpServletResponse response = mockMvc.perform(
                 get(String.format("/fx-warehouse/v1/deals/%s", JOD_DEAL.getId()))
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
             )
             .andExpect(status().isOk())
             .andReturn().getResponse();
-        Deal deals = DealMapper.jsonToSingleObject(mapper, response.getContentAsString());
-        assertEquals(JOD_DEAL, deals);
+        DealDto deals = DealMapper.jsonToSingleObject(mapper, response.getContentAsString());
+        assertEquals(JOD_DEAL_DTO, deals);
     }
 }
