@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "deal")
 @Getter
 @Table(name = "deal")
 @AllArgsConstructor
@@ -20,19 +20,22 @@ import java.util.UUID;
 public class Deal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "from-currency(Ordering Currency)", nullable = false)
     private Currency fromCurrency;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "to-currency", nullable = false)
     private Currency toCurrency;
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
+
     // fix the name of this column, It Does not look nice TODO
-    @Column(name = "amount in Ordering Currency", nullable = false)
+    @Column(name = "amount(in Ordering Currency)", nullable = false)
     private BigDecimal amount;
 
 

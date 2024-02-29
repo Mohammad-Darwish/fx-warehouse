@@ -2,6 +2,7 @@ package com.progressoft.assignment.controller;
 
 import com.progressoft.assignment.model.Currency;
 import com.progressoft.assignment.model.Deal;
+import com.progressoft.assignment.pojo.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,9 +32,14 @@ public class DealController {
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> addDeals(@RequestBody List<Deal> deals) {
-        dealService.saveDeals(deals);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<SaveDealsResponse> addDeals(@RequestBody List<Deal> deals) {
+        SaveDealsResponse savedDeals = dealService.saveDeals(deals);
+        if (savedDeals.existingDealIds().isEmpty()) {
+            return new ResponseEntity<>(savedDeals, HttpStatus.CREATED);
+        } else if (savedDeals.savedDealsIds().isEmpty()) {
+            return new ResponseEntity<>(savedDeals, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(savedDeals, HttpStatus.OK);
     }
 
     @Operation(
