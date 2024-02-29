@@ -16,8 +16,8 @@ services:
   # fx-warehouse instance after building the image
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     container_name: fx-warehouse
     depends_on:
       - db
