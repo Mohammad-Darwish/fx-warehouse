@@ -1,9 +1,9 @@
 package com.progressoft.assignment.util;
 
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

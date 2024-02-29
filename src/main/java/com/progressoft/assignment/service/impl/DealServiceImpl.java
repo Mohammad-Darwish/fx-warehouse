@@ -1,9 +1,9 @@
 package com.progressoft.assignment.service.impl;
 
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.repository.DealRepository;
 import com.progressoft.assignment.service.DealService;
 import com.progressoft.assignment.util.DealSpecification;

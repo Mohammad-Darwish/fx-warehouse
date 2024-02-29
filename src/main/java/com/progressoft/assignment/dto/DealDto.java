@@ -1,21 +1,24 @@
 package com.progressoft.assignment.dto;
 
-import com.progressoft.assignment.model.Currency;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.progressoft.assignment.domain.Currency;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
+@Data
 public class DealDto {
 
     @NotNull(message = "Id must not be null")
@@ -29,6 +32,7 @@ public class DealDto {
 
     @NotNull(message = "Timestamp must not be null or empty")
     @PastOrPresent
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime timestamp;
 
     @NotNull

@@ -1,9 +1,9 @@
 package com.progressoft.assignment.service;
 
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

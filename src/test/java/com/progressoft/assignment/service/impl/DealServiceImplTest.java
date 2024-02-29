@@ -1,8 +1,8 @@
 package com.progressoft.assignment.service.impl;
 
+import com.progressoft.assignment.domain.Currency;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.repository.DealRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

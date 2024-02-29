@@ -1,4 +1,4 @@
-package com.progressoft.assignment.model;
+package com.progressoft.assignment.domain;
 
 public enum Currency {
     USD,

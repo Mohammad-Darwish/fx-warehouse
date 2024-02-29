@@ -1,9 +1,9 @@
 package com.progressoft.assignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
 import com.progressoft.assignment.util.DealMapper;
 import org.junit.jupiter.api.Test;

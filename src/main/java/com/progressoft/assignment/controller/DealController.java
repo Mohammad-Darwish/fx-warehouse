@@ -1,9 +1,9 @@
 package com.progressoft.assignment.controller;
 
+import com.progressoft.assignment.domain.Currency;
+import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
-import com.progressoft.assignment.model.Currency;
-import com.progressoft.assignment.model.Deal;
-import com.progressoft.assignment.pojo.SaveDealsResponse;
+import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
