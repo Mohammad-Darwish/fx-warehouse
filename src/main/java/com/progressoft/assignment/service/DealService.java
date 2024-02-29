@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface DealService {
 
-    public Deal saveDeals(List<Deal> deals);
+    public List<Deal> saveDeals(List<Deal> deals);
 
     public Deal readDeal(String id);
 

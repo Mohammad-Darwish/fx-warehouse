@@ -3,6 +3,8 @@ package com.progressoft.assignment.util;
 import com.progressoft.assignment.model.Currency;
 import com.progressoft.assignment.model.Deal;
 import lombok.experimental.UtilityClass;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,4 +39,12 @@ public class Constants {
         .build();
 
     public static final List<Deal> THREE_DEALS = List.of(JOD_DEAL, EUR_DEAL, USD_DEAL);
+
+    public static BigDecimal AMOUNT_VALUE_10 = new BigDecimal(10);
+    public static BigDecimal AMOUNT_VALUE_1000 = new BigDecimal(1000);
+
+//    public static Specification<Deal> DEAL_SPECIFICATION_TEST = DealSpecification
+//        .createSpecification(Currency.JOD, AMOUNT_VALUE_10, AMOUNT_VALUE_1000);
+
+    public static Page<Deal> PAGE_TEST = new PageImpl<>(List.of(JOD_DEAL));
 }

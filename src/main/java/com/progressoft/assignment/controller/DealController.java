@@ -31,9 +31,9 @@ public class DealController {
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> addDeals(@RequestBody List<Deal> deals) {
-        dealService.saveDeals(deals);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<List<Deal>> addDeals(@RequestBody List<Deal> deals) {
+        List<Deal> savedDeals = dealService.saveDeals(deals);
+        return new ResponseEntity<>(savedDeals, HttpStatus.CREATED);
     }
 
     @Operation(
