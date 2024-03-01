@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity(name = "deal")
 @Getter
-@Table(name = "deal")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Table(name = "deal")
+@Entity(name = "deal")
 public class Deal {
 
     @Id
@@ -30,7 +30,6 @@ public class Deal {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "from_currency_Ordering_Currency", nullable = false)
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private Currency fromCurrency;
 
@@ -41,10 +40,11 @@ public class Deal {
 
     @Column(name = "timestamp", nullable = false)
     @PastOrPresent
+    @NotNull
     private LocalDateTime timestamp;
 
     // fix the name of this column, It Does not look nice TODO
-    @Column(name = "amount_in_ordering_currency)", nullable = false)
+    @Column(name = "amount_in_ordering_currency", nullable = false)
     @NotNull
     @Positive
     private BigDecimal amount;
