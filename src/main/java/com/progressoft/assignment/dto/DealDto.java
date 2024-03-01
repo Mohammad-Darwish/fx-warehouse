@@ -2,7 +2,8 @@ package com.progressoft.assignment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.progressoft.assignment.domain.Currency;
-import jakarta.validation.constraints.NotNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -21,21 +22,35 @@ import java.util.UUID;
 @Data
 public class DealDto {
 
-    @NotNull(message = "Id must not be null")
+    @Schema(
+        description = "Deal Id"
+    )
+    @NotEmpty(message = "Id must not be null")
     private UUID id;
 
-    @NotNull(message = "From currency field must not be null or empty")
+    @Schema(
+        description = "FX from Currency"
+    )
+    @NotEmpty(message = "From currency field must not be null or empty")
     private Currency fromCurrency;
 
-    @NotNull(message = "To currency field must not be null or empty")
+    @Schema(
+        description = "FX to Currency"
+    )
+    @NotEmpty(message = "To currency field must not be null or empty")
     private Currency toCurrency;
 
-    @NotNull(message = "Timestamp must not be null or empty")
+    @Schema(
+        description = "FX date"
+    )
+    @NotEmpty(message = "Timestamp must not be null or empty")
     @PastOrPresent
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime timestamp;
 
-    @NotNull
+    @Schema(
+        description = "Deal amount"
+    )
     @Positive(message = "Amount must not be null, empty, zero, or minus")
     private BigDecimal amount;
 
