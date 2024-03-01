@@ -1,6 +1,5 @@
 package com.progressoft.assignment.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -30,7 +29,6 @@ public class Deal {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "from_currency_Ordering_Currency", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private Currency fromCurrency;
 
     @Enumerated(EnumType.STRING)

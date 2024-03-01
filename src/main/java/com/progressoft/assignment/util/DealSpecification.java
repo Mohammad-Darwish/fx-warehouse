@@ -2,10 +2,12 @@ package com.progressoft.assignment.util;
 
 import com.progressoft.assignment.domain.Currency;
 import com.progressoft.assignment.domain.Deal;
+import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 
+@UtilityClass
 public class DealSpecification {
 
     public static Specification<Deal> hasCurrency(Currency currency) {

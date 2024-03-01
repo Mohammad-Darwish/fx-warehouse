@@ -40,9 +40,6 @@ public class Constants {
         .timestamp(LocalDateTime.now())
         .build();
 
-    public static final List<Deal> JOD_EUR_USD_DEALS = List.of(JOD_DEAL, EUR_DEAL, USD_DEAL);
-    public static final List<Deal> JOD_EUR_DEALS = List.of(JOD_DEAL, EUR_DEAL);
-
     public static final DealDto JOD_DEAL_DTO = DealDto.builder()
         .id(UUID.randomUUID())
         .fromCurrency(Currency.JOD)
@@ -79,9 +76,6 @@ public class Constants {
 
     public static BigDecimal AMOUNT_VALUE_10 = new BigDecimal(10);
     public static BigDecimal AMOUNT_VALUE_1000 = new BigDecimal(1000);
-
-//    public static Specification<Deal> DEAL_SPECIFICATION_TEST = DealSpecification
-//        .createSpecification(Currency.JOD, AMOUNT_VALUE_10, AMOUNT_VALUE_1000);
 
     public static Page<Deal> PAGE_TEST = new PageImpl<>(List.of(JOD_DEAL));
 }

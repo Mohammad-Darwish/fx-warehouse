@@ -2,7 +2,6 @@ package com.progressoft.assignment.controller;
 
 
 import com.progressoft.assignment.domain.Currency;
-import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +31,7 @@ public interface DealController {
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<SaveDealsResponse> addDeals(@Valid @RequestBody List<Deal> deals);
+    ResponseEntity<SaveDealsResponse> addDeals(@Valid @RequestBody List<DealDto> dealDtos);
 
     @Operation(
         summary = "GET deals restAPI",

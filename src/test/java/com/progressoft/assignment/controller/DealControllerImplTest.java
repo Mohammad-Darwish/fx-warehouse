@@ -5,7 +5,7 @@ import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
-import com.progressoft.assignment.util.DealMapper;
+import com.progressoft.assignment.util.DealConvertor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -56,9 +56,9 @@ class DealControllerImplTest {
 
     private static Stream<Arguments> dealTestData() {
         return Stream.of(
-            Arguments.of(JOD_EUR_USD_DEALS, SAVE_DEALS_RESPONSE, 200),
-            Arguments.of(JOD_EUR_DEALS, SAVE_DEALS_RESPONSE_NEW, 201),
-            Arguments.of(JOD_EUR_DEALS, SAVE_DEALS_RESPONSE_ALREADY_EXIST, 409)
+            Arguments.of(JOD_EUR_USD_DEALS_DTO, SAVE_DEALS_RESPONSE, 200),
+            Arguments.of(JOD_EUR_DEALS_DTO, SAVE_DEALS_RESPONSE_NEW, 201),
+            Arguments.of(JOD_EUR_DEALS_DTO, SAVE_DEALS_RESPONSE_ALREADY_EXIST, 409)
         );
     }
 
@@ -72,7 +72,7 @@ class DealControllerImplTest {
             )
             .andExpect(status().isOk())
             .andReturn().getResponse();
-        List<DealDto> deals = DealMapper.jsonToListObject(mapper, response.getContentAsString());
+        List<DealDto> deals = DealConvertor.jsonToListObject(mapper, response.getContentAsString());
         assertEquals(JOD_EUR_USD_DEALS_DTO, deals);
     }
 
@@ -86,7 +86,7 @@ class DealControllerImplTest {
             )
             .andExpect(status().isOk())
             .andReturn().getResponse();
-        DealDto deals = DealMapper.jsonToSingleObject(mapper, response.getContentAsString());
+        DealDto deals = DealConvertor.jsonToSingleObject(mapper, response.getContentAsString());
         assertEquals(JOD_DEAL_DTO, deals);
     }
 }

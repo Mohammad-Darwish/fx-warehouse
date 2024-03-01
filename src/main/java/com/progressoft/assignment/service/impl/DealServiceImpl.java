@@ -7,11 +7,11 @@ import com.progressoft.assignment.exception.ResourceCreationFailedException;
 import com.progressoft.assignment.exception.ResourceNotFoundException;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.repository.DealRepository;
+import com.progressoft.assignment.service.DealMapper;
 import com.progressoft.assignment.service.DealService;
 import com.progressoft.assignment.util.DealSpecification;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -31,15 +31,16 @@ public class DealServiceImpl implements DealService {
     private DealRepository dealRepository;
 
     @Autowired
-    private ModelMapper mapper;
+    private DealMapper mapper;
 
     @Override
-    public SaveDealsResponse saveDeals(List<Deal> deals) {
-        log.info("Attempting to save a batch of deals, size: {}", deals.size());
+    public SaveDealsResponse saveDeals(List<DealDto> dealDtos) {
+        log.info("Attempting to save a batch of deals, size: {}", dealDtos.size());
         List<UUID> savedDeals = new ArrayList<>();
         List<UUID> existingDealIdentifiers = new ArrayList<>();
 
-        for (Deal deal : deals) {
+        for (DealDto dealDto : dealDtos) {
+            Deal deal = mapper.toEntity(dealDto);
             try {
                 if (!dealExists(deal)) {
                     UUID savedDealId = dealRepository.saveAndFlush(deal).getId();
@@ -73,7 +74,7 @@ public class DealServiceImpl implements DealService {
                 return new ResourceNotFoundException(id);
             });
         log.debug("Deal found with id: {}", id);
-        return mapper.map(deal, DealDto.class);
+        return mapper.fromEntity(deal);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class DealServiceImpl implements DealService {
                 DealSpecification.createSpecification(currency, minAmount, maxAmount),
                 PageRequest.of(0, 10))
             .get()
-            .map(deal -> mapper.map(deal, DealDto.class))
+            .map(deal -> mapper.fromEntity(deal))
             .collect(Collectors.toList());
         log.info("Found {} deals matching the criteria", dealDtos.size());
         return dealDtos;

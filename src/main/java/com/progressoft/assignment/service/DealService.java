@@ -1,7 +1,6 @@
 package com.progressoft.assignment.service;
 
 import com.progressoft.assignment.domain.Currency;
-import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import java.util.List;
 @Service
 public interface DealService {
 
-    public SaveDealsResponse saveDeals(List<Deal> deals);
+    public SaveDealsResponse saveDeals(List<DealDto> dealDtos);
 
     public DealDto readDeal(String id);
 

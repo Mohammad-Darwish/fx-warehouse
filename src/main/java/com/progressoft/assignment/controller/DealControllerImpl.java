@@ -1,7 +1,6 @@
 package com.progressoft.assignment.controller;
 
 import com.progressoft.assignment.domain.Currency;
-import com.progressoft.assignment.domain.Deal;
 import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.service.DealService;
@@ -22,8 +21,8 @@ public class DealControllerImpl implements DealController {
     private DealService dealService;
 
     @Override
-    public ResponseEntity<SaveDealsResponse> addDeals(@Valid @RequestBody List<Deal> deals) {
-        SaveDealsResponse savedDeals = dealService.saveDeals(deals);
+    public ResponseEntity<SaveDealsResponse> addDeals(@RequestBody @Valid List<DealDto> dealDtos) {
+        SaveDealsResponse savedDeals = dealService.saveDeals(dealDtos);
         if (savedDeals.existingDealIds().isEmpty()) {
             return new ResponseEntity<>(savedDeals, HttpStatus.CREATED);
         } else if (savedDeals.savedDealsIds().isEmpty()) {

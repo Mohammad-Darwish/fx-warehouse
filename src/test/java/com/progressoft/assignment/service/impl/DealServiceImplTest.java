@@ -4,12 +4,12 @@ import com.progressoft.assignment.domain.Currency;
 import com.progressoft.assignment.dto.DealDto;
 import com.progressoft.assignment.model.SaveDealsResponse;
 import com.progressoft.assignment.repository.DealRepository;
+import com.progressoft.assignment.service.DealMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -28,7 +28,7 @@ class DealServiceImplTest {
     private DealRepository dealRepository;
 
     @Mock
-    private ModelMapper mapper;
+    private DealMapper mapper;
 
     @InjectMocks
     private DealServiceImpl dealService;
@@ -39,10 +39,12 @@ class DealServiceImplTest {
         // Setup
         when(dealRepository.existsById(JOD_DEAL.getId())).thenReturn(false);
         when(dealRepository.existsById(EUR_DEAL.getId())).thenReturn(true);
+        when(mapper.toEntity(JOD_DEAL_DTO)).thenReturn(JOD_DEAL);
+        when(mapper.toEntity(EUR_DEAL_DTO)).thenReturn(EUR_DEAL);
         when(dealRepository.saveAndFlush(JOD_DEAL)).thenReturn(JOD_DEAL);
 
         // Execute
-        SaveDealsResponse saveDealsResponse = dealService.saveDeals(JOD_EUR_DEALS);
+        SaveDealsResponse saveDealsResponse = dealService.saveDeals(JOD_EUR_DEALS_DTO);
 
         // Assert
         assertEquals(JOD_DEAL.getId(), saveDealsResponse.savedDealsIds().get(0));
@@ -53,7 +55,7 @@ class DealServiceImplTest {
     void readDealTest() {
         // Setup
         when(dealRepository.findById(JOD_DEAL.getId())).thenReturn(Optional.of(JOD_DEAL));
-        when(mapper.map(JOD_DEAL, DealDto.class)).thenReturn(JOD_DEAL_DTO);
+        when(mapper.fromEntity(JOD_DEAL)).thenReturn(JOD_DEAL_DTO);
 
         // Execute
         DealDto dealDto = dealService.readDeal(JOD_DEAL.getId().toString());
@@ -66,8 +68,8 @@ class DealServiceImplTest {
     void readAllDealsTest() {
         // Setup
         when(dealRepository.findAll(any(Specification.class), any(PageRequest.class))).thenReturn(PAGE_TEST);
-        when(mapper.map(JOD_DEAL, DealDto.class)).thenReturn(JOD_DEAL_DTO);
-        when(mapper.map(JOD_DEAL, DealDto.class)).thenReturn(JOD_DEAL_DTO);
+        when(mapper.fromEntity(JOD_DEAL)).thenReturn(JOD_DEAL_DTO);
+        when(mapper.fromEntity(JOD_DEAL)).thenReturn(JOD_DEAL_DTO);
 
         // Execute
         List<DealDto> fetchedDeals = dealService.readAllDeals(Currency.JOD, AMOUNT_VALUE_10, AMOUNT_VALUE_1000);

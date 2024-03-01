@@ -3,7 +3,7 @@ package com.progressoft.assignment.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.progressoft.assignment.domain.Currency;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -22,37 +22,27 @@ import java.util.UUID;
 @Data
 public class DealDto {
 
-    @Schema(
-        description = "Deal Id"
-    )
-    @NotEmpty(message = "Id must not be null")
+    @Schema(description = "Deal Id")
+    @NotNull(message = "Id must not be null")
     private UUID id;
 
-    @Schema(
-        description = "FX from Currency"
-    )
-    @NotEmpty(message = "From currency field must not be null or empty")
+    @Schema(description = "FX from Currency")
+    @NotNull(message = "From currency field must not be null")
     private Currency fromCurrency;
 
-    @Schema(
-        description = "Deal to Currency"
-    )
-    @NotEmpty(message = "To currency field must not be null or empty")
+    @Schema(description = "Deal to Currency")
+    @NotNull(message = "To currency field must not be null")
     private Currency toCurrency;
 
-    @Schema(
-        description = "Deal date"
-    )
-    @NotEmpty(message = "Timestamp must not be null or empty")
+    @Schema(description = "Deal date")
+    @NotNull(message = "Timestamp must not be null")
     @PastOrPresent
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime timestamp;
 
-    @Schema(
-        description = "Deal amount"
-    )
-    @NotEmpty
-    @Positive(message = "Amount must not be null, empty, zero, or minus")
+    @Schema(description = "Deal amount")
+    @Positive(message = "Amount must be positive")
+    @NotNull(message = "Amount must not be null")
     private BigDecimal amount;
 
     @Override

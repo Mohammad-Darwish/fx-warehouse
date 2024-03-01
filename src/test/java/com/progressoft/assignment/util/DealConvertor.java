@@ -9,14 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public class DealMapper {
-    public static String objectToStringJson(ObjectMapper mapper, Object object) {
-        try {
-            return mapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+public class DealConvertor {
 
     public static List<DealDto> jsonToListObject(ObjectMapper mapper, String json) {
         List<DealDto> list;
