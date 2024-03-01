@@ -35,44 +35,58 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public SaveDealsResponse saveDeals(List<Deal> deals) {
+        log.info("Attempting to save a batch of deals, size: {}", deals.size());
         List<UUID> savedDeals = new ArrayList<>();
         List<UUID> existingDealIdentifiers = new ArrayList<>();
 
         for (Deal deal : deals) {
             try {
                 if (!dealExists(deal)) {
-                    savedDeals.add(dealRepository.saveAndFlush(deal).getId());
+                    UUID savedDealId = dealRepository.saveAndFlush(deal).getId();
+                    savedDeals.add(savedDealId);
+                    log.debug("Saved a new deal with id: {}", savedDealId);
                 } else {
                     existingDealIdentifiers.add(deal.getId());
+                    log.debug("Deal already exists with id: {}", deal.getId());
                 }
             } catch (IllegalArgumentException e) {
-                log.error(String.format("could not save a Deal with id %s in Database", deal.getId().toString()), e);
+                log.error("Could not save a deal with id: {}", deal.getId(), e);
                 throw new ResourceCreationFailedException(deal.getId().toString());
             }
         }
+
+        log.info("Save deals completed. New deals saved: {}, Existing deals skipped: {}",
+            savedDeals.size(),
+            existingDealIdentifiers.size());
         return new SaveDealsResponse(savedDeals, existingDealIdentifiers);
     }
-
     private boolean dealExists(Deal deal) {
         return dealRepository.existsById(deal.getId());
     }
 
     @Override
     public DealDto readDeal(String id) {
-        Deal deal = dealRepository.findById(UUID.fromString(id)).orElseThrow(() -> new ResourceNotFoundException(id));
+        log.info("Attempting to read a deal with id: {}", id);
+        Deal deal = dealRepository.findById(UUID.fromString(id))
+            .orElseThrow(() -> {
+                log.warn("Deal not found with id: {}", id);
+                return new ResourceNotFoundException(id);
+            });
+        log.debug("Deal found with id: {}", id);
         return mapper.map(deal, DealDto.class);
     }
 
     @Override
-    public List<DealDto> readAllDeals(Currency currency,
-                                      BigDecimal minAmount,
-                                      BigDecimal maxAmount) {
-        return dealRepository
+    public List<DealDto> readAllDeals(Currency currency, BigDecimal minAmount, BigDecimal maxAmount) {
+        log.info("Reading all deals with currency: {}, minAmount: {}, maxAmount: {}", currency, minAmount, maxAmount);
+        List<DealDto> dealDtos = dealRepository
             .findAll(
                 DealSpecification.createSpecification(currency, minAmount, maxAmount),
                 PageRequest.of(0, 10))
             .get()
             .map(deal -> mapper.map(deal, DealDto.class))
             .collect(Collectors.toList());
+        log.info("Found {} deals matching the criteria", dealDtos.size());
+        return dealDtos;
     }
 }
