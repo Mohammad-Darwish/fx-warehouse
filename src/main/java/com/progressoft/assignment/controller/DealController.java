@@ -22,7 +22,13 @@ public interface DealController {
         description = "ADD deals endpoint to add deals to Database")
     @ApiResponse(
         responseCode = "201",
-        description = "HTTP status is 201 created")
+        description = "All deals are new and have been successfully added to the database")
+    @ApiResponse(
+        responseCode = "409",
+        description = "None of the deals could be added because they all already exist in the database")
+    @ApiResponse(
+        responseCode = "200",
+        description = "Some deals were new and added, while some skipped because were already existing in the database")
     @PostMapping(
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)

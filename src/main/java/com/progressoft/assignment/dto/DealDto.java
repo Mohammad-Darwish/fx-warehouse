@@ -35,13 +35,13 @@ public class DealDto {
     private Currency fromCurrency;
 
     @Schema(
-        description = "FX to Currency"
+        description = "Deal to Currency"
     )
     @NotEmpty(message = "To currency field must not be null or empty")
     private Currency toCurrency;
 
     @Schema(
-        description = "FX date"
+        description = "Deal date"
     )
     @NotEmpty(message = "Timestamp must not be null or empty")
     @PastOrPresent
@@ -51,6 +51,7 @@ public class DealDto {
     @Schema(
         description = "Deal amount"
     )
+    @NotEmpty
     @Positive(message = "Amount must not be null, empty, zero, or minus")
     private BigDecimal amount;
 
